@@ -1,9 +1,25 @@
+/*
+*********************************************************************************************************
+@Name     Treatment_TriggerHandler
+@Author   kaaviir@gmail.com
+@Date     Created: 03/06/2025
+@Group    Omega CRM
+@Description This class assistes the automatic process of main specialist assignation when creating a treatment.
+*********************************************************************************************************
+@Changes
+Date              Author                                    Modification
+03/06/2025        kaaviir@gmail.com                         Class creation.
+*********************************************************************************************************
+*/
 public with sharing class Treatment_TriggerHandler {
 
     /*
-    * Handles the before insert trigger event for Treatment__c records.
-    *
-    * @param triggerNew List of new Treatment__c records being inserted.
+    *********************************************************
+    @Method Name    : onBeforeInsert
+    @author         : kaaviir@gmail.com
+    @description    : assigns the main specialist to the treatment if available, based on record type and availability
+    @param          : List<Treatment__c> triggerNew : the trigger new records
+    ********************************************************
     */
     public static void onBeforeInsert(List<Treatment__c> triggerNew) {
         if (triggerNew.size() == 1) {
@@ -24,25 +40,30 @@ public with sharing class Treatment_TriggerHandler {
     }
 
     /*
-    * Handles the after insert trigger event for Treatment__c records.
-    *
-    * @param triggerNew List of new Treatment__c records that were inserted.
+    *********************************************************
+    @Method Name    : onAfterInsert
+    @author         : kaaviir@gmail.com
+    @description    : creates the assigned specialist record for the specialist related to the treatment, if available
+    @param          : List<Treatment__c> triggerNew : the trigger new records
+    ********************************************************
     */
     public static void onAfterInsert(List<Treatment__c> triggerNew) {
         if (triggerNew[0].Main_Specialist__c != null) {
-
             List<Assigned_Specialist__c> assignedSpecialists = new List<Assigned_Specialist__c>{new Assigned_Specialist__c(Treatment__c = triggerNew[0].Id, Specialist__c = triggerNew[0].Main_Specialist__c)};
             SObjectAccessDecision securityDecision = Security.stripInaccessible(AccessType.CREATABLE, assignedSpecialists);
             insert securityDecision.getRecords();
-
         }
     }
 
-    /*
-    * Finds the main specialist from a list of specialists based on the number of assigned specialists.
-    *
-    * @param specialistsAndAssignmentsRel List of Specialist__c records with their related Assigned_specialists__r.
-    * @return The Specialist__c record with the fewest assigned specialists or the first specialist with no assigned specialists.
+   /*
+    *********************************************************
+    @Method Name    : findMainSpecialist
+    @param          : List<Specialist__c> specialistsAndAssignmentsRel : the list of specialists with their assigned specialists
+    @author         : kaaviir@gmail.com
+    @description    : iterates over a list to find the specialist with the least amount of assigned treatments
+
+    @return         : Specialist__c : the found specialist record or null value
+    ********************************************************
     */
     public static Specialist__c findMainSpecialist(List<Specialist__c> specialistsAndAssignmentsRel) {
         Boolean auxFound = false;
@@ -64,9 +85,6 @@ public with sharing class Treatment_TriggerHandler {
 
                 auxCounter++;
             }
-            system.debug('false?: ' + auxFound);
-            system.debug('fails?: auxcounter ' + auxCounter);
-            system.debug('what: ' + specialistsAndAssignmentsRel.size());
         }
 
         return mainSpecialist;
