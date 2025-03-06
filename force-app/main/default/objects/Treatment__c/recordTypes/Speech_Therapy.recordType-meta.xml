@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Speech_Therapy</fullName>
+    <active>true</active>
+    <label>Speech Therapy</label>
+    <picklistValues>
+        <picklist>Respiratory_subtype__c</picklist>
+        <values>
+            <fullName>Chest percussion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diaphragm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sleep</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spirometry</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>
