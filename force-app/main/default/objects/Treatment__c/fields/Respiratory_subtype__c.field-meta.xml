@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Respiratory_subtype__c</fullName>
+    <label>Respiratory subtype</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Chest percussion</fullName>
+                <default>false</default>
+                <label>Chest percussion</label>
+            </value>
+            <value>
+                <fullName>Diaphragm</fullName>
+                <default>false</default>
+                <label>Diaphragm</label>
+            </value>
+            <value>
+                <fullName>Sleep</fullName>
+                <default>false</default>
+                <label>Sleep</label>
+            </value>
+            <value>
+                <fullName>Spirometry</fullName>
+                <default>false</default>
+                <label>Spirometry</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
